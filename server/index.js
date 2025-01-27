@@ -5,13 +5,14 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 import { PostSignup } from './controller/users.js';
-import { getHealth } from './controller/Health.js';
+import { getHealth,PostLogin } from './controller/Health.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.post("/Signup",PostSignup);
+app.post("/Login",PostLogin);
 
 app.get("/health",getHealth);
 

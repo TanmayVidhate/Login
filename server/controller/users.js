@@ -21,14 +21,14 @@ const PostSignup = async (req, res) => {
             })
         }
 
-        const salt =bcrypt.genSaltSync(10);
+        const salt = bcrypt.genSaltSync(10);
 
         const newData = new User({
             name: name,
             email: email,
             phone: phone,
             address: address,
-            password: bcrypt.hashSync(password,salt)
+            password: bcrypt.hashSync(password, salt)
         })
 
         const saved = await newData.save();
@@ -36,22 +36,72 @@ const PostSignup = async (req, res) => {
         res.status(201).json({
             success: true,
             data: {
-                name:saved.name,
-                email:saved.email,
-                phone:saved.phone,
-                address:saved.address
+                name: saved.name,
+                email: saved.email,
+                phone: saved.phone,
+                address: saved.address
             },
             message: "User's data added.. "
         })
     }
     catch (error) {
         return res.status(400).json({
-            success:false,
-            message:error?.message
+            success: false,
+            message: error?.message
+        })
+    }
+}
+
+const PostLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            const missingterm = [];
+            if (!email) missingterm.push("Email")
+            if (!password) missingterm.push("Password")
+
+            return res.status(400).json({
+                success: false,
+                message: `Please enter the following fields:${missingterm.join(",")}`
+            })
+        }
+
+        const user = await User.findOne({email});
+
+        if(!user)
+        {
+            return res.status(404).json({
+                success:false,
+                message:"Please First Signingup"
+            })
+        }
+
+        const isPasswordmatch = bcrypt.compareSync(password,user.password)
+
+        if(isPasswordmatch)
+        {
+            return res.status(200).json({
+                success:true,
+                message:"Login Successfully"
+            })
+        }
+        else
+        {
+            return res.status(400).json({
+                success:false,
+                message:"Invalid credentials"
+            })
+        }
+    }
+    catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error?.message
         })
     }
 }
 
 export {
-    PostSignup
+    PostSignup, PostLogin
 }
