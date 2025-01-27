@@ -88,9 +88,9 @@ const PostLogin = async (req, res) => {
         }
         else
         {
-            return res.status(400).json({
+            return res.status(404).json({
                 success:false,
-                message:"Invalid credentials"
+                message:"Invalid Password"
             })
         }
     }
