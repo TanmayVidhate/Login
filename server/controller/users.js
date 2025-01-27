@@ -35,7 +35,12 @@ const PostSignup = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            data: saved,
+            data: {
+                name:saved.name,
+                email:saved.email,
+                phone:saved.phone,
+                address:saved.address
+            },
             message: "User's data added.. "
         })
     }
