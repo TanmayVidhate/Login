@@ -20,10 +20,10 @@ const stru = new Schema({
         type: String,
         required: true,
     }
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 
-const  User = model("User",stru);
+const User = model("User", stru);
 
 export default User;

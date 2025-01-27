@@ -4,12 +4,14 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config();
 
-
+import { PostLogin } from './controller/users.js';
 import { getHealth } from './controller/Health.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.post("/Login",PostLogin);
 
 app.get("/health",getHealth);
 
