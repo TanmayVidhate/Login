@@ -1,6 +1,7 @@
 import User from '../model/User.js'
+import bcrypt from "bcrypt";
 
-const PostLogin = async (req, res) => {
+const PostSignup = async (req, res) => {
 
     try {
         const { name, email, phone, address, password, repassword } = req.body;
@@ -20,26 +21,22 @@ const PostLogin = async (req, res) => {
             })
         }
 
+        const salt =bcrypt.genSaltSync(10);
+
         const newData = new User({
             name: name,
             email: email,
             phone: phone,
             address: address,
-            password: password,
-            repassword: repassword
+            password: bcrypt.hashSync(password,salt)
         })
 
-        const saved = await newData.saved();
+        const saved = await newData.save();
 
         res.status(201).json({
             success: true,
-            data: {
-                name:saved.name,
-                email:saved.email,
-                phone:saved.phone,
-                address:saved.address
-            },
-            message: "Donor data added.. "
+            data: saved,
+            message: "User's data added.. "
         })
     }
     catch (error) {
@@ -51,5 +48,5 @@ const PostLogin = async (req, res) => {
 }
 
 export {
-    PostLogin
+    PostSignup
 }
