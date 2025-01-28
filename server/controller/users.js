@@ -1,7 +1,7 @@
 import User from '../model/User.js'
 import bcrypt from "bcrypt";
 
-const PostSignup = async (req, res) => {
+const postSignup = async (req, res) => {
 
     try {
         const { name, email, phone, address, password, repassword } = req.body;
@@ -52,7 +52,7 @@ const PostSignup = async (req, res) => {
     }
 }
 
-const PostLogin = async (req, res) => {
+const postLogin = async (req,res) => {
     try {
         const { email, password } = req.body;
 
@@ -103,5 +103,5 @@ const PostLogin = async (req, res) => {
 }
 
 export {
-    PostSignup, PostLogin
-}
+    postSignup, postLogin
+}    
